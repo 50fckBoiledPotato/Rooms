@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: rgb(21,27,41);" stylesheets="@style/index.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pepper.Rooms.controller.MainController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: rgb(21,27,41);" stylesheets="@style/index.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pepper.Rooms.controller.MainController">
    <children>
       <SplitPane dividerPositions="0.5" prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: rgb(21, 27, 41);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
@@ -149,7 +149,7 @@
                   <Insets />
                </opaqueInsets>
                <children>
-                  <HBox alignment="BASELINE_LEFT" prefHeight="0.0" prefWidth="346.0" spacing="10.0" style="-fx-background-color: rgb(41, 47, 61);">
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="0.0" prefWidth="346.0" spacing="10.0" style="-fx-background-color: rgb(41, 47, 61);">
                      <children>
                         <Label style="-fx-text-fill: rgb(255,162,96);" text="Find rooms by:">
                            <HBox.margin>
@@ -175,6 +175,7 @@
                         </Button>
                      </children>
                   </HBox>
+                  <AnchorPane fx:id="tableContainer" />
                </children>
             </VBox>
          </items>

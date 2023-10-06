@@ -3,6 +3,7 @@ package com.pepper.Rooms.controller;
 import com.pepper.Rooms.RoomCore;
 import com.pepper.Rooms.gui.CheckBoxPair;
 import com.pepper.Rooms.gui.InputSpin;
+import com.pepper.Rooms.gui.Table;
 import com.pepper.Rooms.model.Model;
 import com.pepper.Rooms.model.Room;
 import java.util.ArrayList;
@@ -12,12 +13,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.layout.Pane;
 
 
 public class RoomController 
 {
     private MainController P;
     private Model model;
+    private Table table;
     
     public RoomController(MainController parent)
     {
@@ -26,9 +29,6 @@ public class RoomController
         
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1);
         P.getrLevel().setValueFactory(valueFactory);
-        
-        
-        
     }
 
     void saveRoom() 
@@ -42,6 +42,89 @@ public class RoomController
             
             Room newRoom = new Room(name, sector, level, isOpen);
             model.saveRoom(newRoom);
+        }
+    }
+    private CheckBoxPair chbPair;
+    private InputSpin spinner;
+    
+    public void findRoom(String by)
+    {
+        Pane pane = P.getTableContainer();
+        
+        
+        switch (by)
+        {
+            case "Open/closed" ->
+            {
+                if(chbPair.getChb0().isSelected())
+                {
+                    System.out.println("room Controllerből: open");
+                    pane.getChildren().clear();
+                    List<Room> rooms = model.findByIsOpen(true);
+                    table = new Table(pane, Room.class);
+                    table.setItems(rooms);
+                }
+                else if(chbPair.getChb1().isSelected())
+                {
+                    System.out.println("room Controllerből: closed");
+                    pane.getChildren().clear();
+                    List<Room> rooms = model.findByIsOpen(false);
+                    table = new Table(pane, Room.class);
+                    table.setItems(rooms);
+                }
+            }
+            case "Level" ->
+            {
+                pane.getChildren().clear();
+                int level =(int) spinner.getSpinner().getValue();
+                List<Room> rooms = model.findByLevel(level);
+                table = new Table(pane, Room.class);
+                table.setItems(rooms);
+            }
+            case "Level not equals" ->
+            {
+                int level =(int) spinner.getSpinner().getValue();
+                List<Room> rooms = model.findbyOutOfLevelCustom(level);
+                table = new Table(pane, Room.class);
+                table.setItems(rooms);
+            }
+            case "Sector" ->
+            {
+                pane.getChildren().clear();
+                int level =(int) spinner.getSpinner().getValue();
+                List<Room> rooms = model.findBySector(level);
+                table = new Table(pane, Room.class);
+                table.setItems(rooms);
+            }
+            case "Permission" ->
+            {
+                pane.getChildren().clear();
+                int level =(int) spinner.getSpinner().getValue();
+                List<Room> rooms = model.findRoomsByPermission(level);
+                table = new Table(pane, Room.class);
+                table.setItems(rooms);
+            }
+            case "Level and by open/closed" ->
+            {
+                pane.getChildren().clear();
+                int level =(int) spinner.getSpinner().getValue();
+                if(chbPair.getChb0().isSelected())
+                {
+                    List<Room> rooms = model.findRoomsByLevelAndIsOpen(level, true);
+                    table = new Table(pane, Room.class);
+                    table.setItems(rooms);
+                }
+                else if(chbPair.getChb1().isSelected())
+                {
+                   List<Room> rooms = model.findRoomsByLevelAndIsOpen(level, false);
+                   table = new Table(pane, Room.class);
+                   table.setItems(rooms);
+                }
+            }
+            default ->
+            {
+                
+            }
         }
     }
     
@@ -101,12 +184,13 @@ public class RoomController
                             clearNode();
                         }
                     }
+                } else {
+                    clearNode();
                 }
             }
         });
     }
-    private CheckBoxPair chbPair;
-    private InputSpin spinner;
+    
     public void addChbPair()
     {
         chbPair = new CheckBoxPair(P.getFindPane(), "Open", "Closed");        
